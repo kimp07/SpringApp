@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.Query;
  */
 public interface PermissionsMapRepository extends JpaRepository<PermissionsMap, Long> {
     
-    @Query(value = "SELECT p FROM PermossionsMap p WHERE p.role.id = :roleId")
+    @Query(value = "SELECT p FROM PermissionsMap p WHERE p.role.id = :roleId")
     List<PermissionsMap> findPermissionsMapByRoleId(long roleId);
     
 }
