@@ -38,7 +38,7 @@ public class User {
     @Column(name = "credentials_non_expired")
     private boolean credentialsNonExpired;
     @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
     private Role role;
 
     public long getId() {

@@ -24,7 +24,7 @@ public class PermissionsMap {
     @Column(name = "permission_path")
     private String permissionPath;
     @OneToOne
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
     private Role role;
 
     public long getId() {
