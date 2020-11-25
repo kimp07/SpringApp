@@ -13,16 +13,23 @@ import org.springframework.data.jpa.repository.Query;
  */
 public interface UserRepository extends JpaRepository<User, Long> {
     
+    
+    @Query(value = "SELECT u FROM User u WHERE u.userName = :userName")
+    User findByUserName(String userName);
+
+    @Query(value = "SELECT u FROM User u WHERE u.email = :email")
+    User findByEmail(String email);    
+    
     @Query(value = "SELECT u FROM User u WHERE u.role.id = :roleId")
     List<User> findAllByRoleId(long roleId);
 
     @Query(value = "SELECT u FROM User u WHERE u.role.id = :roleId")
     Page<User> findAllByRoleId(long roleId, Pageable pageable);
     
-    @Query(value = "SELECT u FROM User u WHERE u.userName = :userName")
-    User findByUserName(String userName);
+    @Query(value = "SELECT u FROM User u WHERE u.role.roleName = :roleName")
+    List<User> findAllByRoleName(String roleName);
 
-    @Query(value = "SELECT u FROM User u WHERE u.email = :email")
-    User findByEmail(String email);
-
+    @Query(value = "SELECT u FROM User u WHERE u.role.roleName = :roleName")
+    Page<User> findAllByRoleName(String roleName, Pageable pageable);    
+    
 }
