@@ -33,14 +33,12 @@ public class RoleDAO implements RoleService {
 
     @Override
     public Role findById(long id) {
-        Role role = repository.findById(id).orElse(null);
-        return role;
+        return repository.findById(id).orElse(null);
     }
 
     @Override
     public Role findByRoleName(String roleName) {
-        Role role = repository.findOneByRoleName(roleName).orElse(null);
-        return role;
+        return repository.findOneByRoleName(roleName).orElse(null);
     }
 
     @Override
