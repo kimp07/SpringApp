@@ -20,7 +20,7 @@ public class PermissionsMapDAO implements PermissionsMapService {
 
     private final PermissionsMapRepository repository;
 
-    private static final Logger LOG = LogManager.getLogger(PermissionsMapService.class);
+    private static final Logger LOG = LogManager.getLogger(PermissionsMapDAO.class);
 
     @Autowired
     public PermissionsMapDAO(PermissionsMapRepository repository) {
@@ -40,6 +40,10 @@ public class PermissionsMapDAO implements PermissionsMapService {
     @Override
     @Transactional
     public PermissionsMap save(PermissionsMap permissionsMap) {
+        if (permissionsMap == null) {
+            LOG.error("PermissionsMap is null!");
+            return null;            
+        }
         return repository.save(permissionsMap);
     }
 

@@ -19,7 +19,7 @@ public class RoleDAO implements RoleService {
 
     private final RoleRepository repository;
     
-    private static final Logger LOG = LogManager.getLogger(RoleService.class);
+    private static final Logger LOG = LogManager.getLogger(RoleDAO.class);
     
     @Autowired
     public RoleDAO(RoleRepository repository) {
