@@ -79,9 +79,9 @@ public class PermissionsMapDAO implements PermissionsMapService {
     public List<String> findPermissionsByRoleId(long roleId) {
         List<PermissionsMap> permissions = findAllByRoleId(roleId);
         List<String> permissionsArray = new ArrayList<>();
-        permissions.forEach((permission) -> {
-            permissionsArray.add(permission.getPermissionPath());
-        });
+        permissions.forEach(permission -> 
+            permissionsArray.add(permission.getPermissionPath())
+        );
         return permissionsArray;
     }
 
