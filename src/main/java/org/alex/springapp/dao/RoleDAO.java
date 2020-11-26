@@ -58,28 +58,17 @@ public class RoleDAO implements RoleService {
             LOG.error("Role is null!");
             return null;
         }
-        if (role.getId() == 0) { // insert new record
-            Role roleFromBase = findByRoleName(role.getRoleName());
-            if (roleFromBase != null) {
-                LOG.error("Role with roleName " + role.getRoleName() + " exists!");
-                return role;
-            }
-        } else if (role.getRoleName().isEmpty()) {
-            Role roleFromBase = findById(role.getId()); // if roleName empty, try to restore from database
-            if (roleFromBase != null) {
-                role.setRoleName(roleFromBase.getRoleName());
-            } else {
-                LOG.error("Field roleName cannot e empty!");
-                return role;
-            }            
-        }
         return repository.save(role);
     }
 
     @Override
     @Transactional
     public boolean deleteById(long id) {
-        
+        if (findById(id) == null) {
+            LOG.error("Role for id " + id + " not found!");
+            return false;
+        }
+        repository.deleteById(id);
         return true;
     }
 
