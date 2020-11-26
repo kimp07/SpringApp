@@ -61,7 +61,7 @@ public class PermissionsMapDAO implements PermissionsMapService {
     @Override
     @Transactional
     public boolean deleteAllByRoleId(long roleId) {
-        ArrayList<PermissionsMap> permissions = new ArrayList<>(findAllByRoleId(roleId));
+        List<PermissionsMap> permissions = findAllByRoleId(roleId);
         boolean operationResult = true;
         if (permissions.size() > 0) {
             for (PermissionsMap permission : permissions) {
@@ -77,8 +77,8 @@ public class PermissionsMapDAO implements PermissionsMapService {
 
     @Override
     public List<String> findPermissionsByRoleId(long roleId) {
-        ArrayList<PermissionsMap> permissions = new ArrayList<>(findAllByRoleId(roleId));
-        ArrayList<String> permissionsArray = new ArrayList<>();
+        List<PermissionsMap> permissions = findAllByRoleId(roleId);
+        List<String> permissionsArray = new ArrayList<>();
         permissions.forEach((permission) -> {
             permissionsArray.add(permission.getPermissionPath());
         });
