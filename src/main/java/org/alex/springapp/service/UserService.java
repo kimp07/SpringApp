@@ -23,7 +23,11 @@ public interface UserService {
     
     User findByUserName(String userName);
     
+    User findByUserNameAndPassword(String userName, String password);
+    
     User findByEmail(String email);
+    
+    User findByEmailAndPassword(String email, String password);
     
     User save(User user);
     
