@@ -76,7 +76,7 @@ public class UserDAO implements UserService {
     public User findByEmail(String email) {
         return repository.findByEmail(email).orElse(null);
     }
-    
+
     @Override
     public User findByEmailAndPassword(String email, String password) {
         User user = findByEmail(email);
@@ -87,7 +87,6 @@ public class UserDAO implements UserService {
         }
         return null;
     }
-    
 
     @Override
     @Transactional
