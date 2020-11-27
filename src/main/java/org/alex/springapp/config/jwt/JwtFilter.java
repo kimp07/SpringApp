@@ -5,8 +5,10 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import org.alex.springapp.config.ApplicationUserDetailsService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
@@ -16,6 +18,11 @@ import org.springframework.web.filter.GenericFilterBean;
  */
 @Component
 public class JwtFilter extends GenericFilterBean {
+    
+    @Autowired
+    private JwtProvider jwtProvider;
+    @Autowired
+    private ApplicationUserDetailsService userDetailsService;
     
     private static final Logger LOG = LogManager.getLogger(JwtFilter.class);
     
