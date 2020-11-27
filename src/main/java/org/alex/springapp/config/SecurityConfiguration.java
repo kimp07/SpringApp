@@ -47,16 +47,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/register", "/auth").permitAll()
-                .and();
+                .antMatchers("/register", "/auth").permitAll();
         List<Role> enabledRoles = roleDAO.findAllEnabledRoles();
         for (Role role : enabledRoles) {
             String roleName = role.getRoleName();
             List<String> rolePermissions = permissionsDAO.findPermissionsByRoleId(role.getId());
             http
                     .authorizeRequests()
-                    .antMatchers((String[]) rolePermissions.toArray()).hasRole(roleName)
-                    .and();
+                    .antMatchers(rolePermissions.stream().toArray(String[]::new)).hasRole(roleName);
         }
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
