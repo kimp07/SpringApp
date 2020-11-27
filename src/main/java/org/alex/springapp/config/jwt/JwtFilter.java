@@ -20,7 +20,7 @@ public class JwtFilter extends GenericFilterBean {
     private static final Logger LOG = LogManager.getLogger(JwtFilter.class);
     
     @Override
-    public void doFilter(ServletRequest sr, ServletResponse sr1, FilterChain fc) throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain fc) throws IOException, ServletException {
     }
     
 }
