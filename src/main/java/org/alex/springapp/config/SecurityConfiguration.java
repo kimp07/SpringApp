@@ -39,25 +39,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http
-                .httpBasic().disable()
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
+        http.httpBasic().disable().csrf().disable().sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
                 .antMatchers("/register", "/auth").permitAll();
         List<Role> enabledRoles = roleDAO.findAllEnabledRoles();
         for (Role role : enabledRoles) {
             String roleName = role.getRoleName();
             List<String> rolePermissions = permissionsDAO.findPermissionsByRoleId(role.getId());
             if (!rolePermissions.isEmpty()) {
-                http
-                .authorizeRequests()
-                .antMatchers(rolePermissions.stream().toArray(String[]::new)).hasRole(roleName);                
+                http.authorizeRequests().antMatchers(rolePermissions.stream().toArray(String[]::new)).hasRole(roleName);
             } else {
-                http
-                .authorizeRequests()
-                .antMatchers("/*").hasRole(roleName);                                
+                http.authorizeRequests().antMatchers("/*").hasRole(roleName);
             }
         }
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
