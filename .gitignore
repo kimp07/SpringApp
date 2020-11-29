@@ -12,6 +12,8 @@ target/
 .settings
 .springBeans
 .sts4-cache
+.dbweaver
+.dbweaver/*
 
 ### IntelliJ IDEA ###
 .idea
@@ -34,3 +36,4 @@ build/
 /nbactions.xml
 /nb-configuration.xml
 /src/main/resources/META-INF/persistence.xml
+/bin/
