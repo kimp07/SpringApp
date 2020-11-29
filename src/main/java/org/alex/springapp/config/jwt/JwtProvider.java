@@ -39,7 +39,7 @@ public class JwtProvider {
             Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(token);
             return true;
         } catch (ExpiredJwtException | MalformedJwtException | SignatureException | UnsupportedJwtException | IllegalArgumentException e) {
-            LOG.error("invalid token");
+            LOG.error("Invalid token cause: {}", e.getMessage());
         }
         return false;
     }

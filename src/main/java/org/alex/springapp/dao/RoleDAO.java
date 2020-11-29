@@ -65,7 +65,7 @@ public class RoleDAO implements RoleService {
     @Transactional
     public boolean deleteById(long id) {
         if (findById(id) == null) {
-            LOG.error("Role for id " + id + " not found!");
+            LOG.error("Role for id {} not found!", id);
             return false;
         }
         repository.deleteById(id);

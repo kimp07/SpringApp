@@ -64,10 +64,8 @@ public class UserDAO implements UserService {
     @Override
     public User findByUserNameAndPassword(String userName, String password) {
         User user = findByUserName(userName);
-        if (user != null) {
-            if (passwordEncoder.matches(password, user.getPassword())) {
-                return user;
-            }
+        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
+            return user;
         }
         return null;
     }
@@ -80,10 +78,8 @@ public class UserDAO implements UserService {
     @Override
     public User findByEmailAndPassword(String email, String password) {
         User user = findByEmail(email);
-        if (user != null) {
-            if (passwordEncoder.matches(password, user.getPassword())) {
-                return user;
-            }
+        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
+            return user;
         }
         return null;
     }
@@ -103,7 +99,7 @@ public class UserDAO implements UserService {
     public boolean deleteById(long id) {
         User user = findById(id);
         if (user == null) {
-            LOG.error("User for id " + id + " not found!");
+            LOG.error("User for id {} not found!", id);
             return false;
         }
         repository.deleteById(id);

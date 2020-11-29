@@ -51,7 +51,7 @@ public class PermissionsMapDAO implements PermissionsMapService {
     @Transactional
     public boolean deleteById(long id) {
         if (findById(id) == null) {
-            LOG.error("PermissionsMap for id " + id + " not found!");
+            LOG.error("PermissionsMap for id {} not found!", id);
             return false;
         }
         repository.deleteById(id);
@@ -63,11 +63,11 @@ public class PermissionsMapDAO implements PermissionsMapService {
     public boolean deleteAllByRoleId(long roleId) {
         List<PermissionsMap> permissions = findAllByRoleId(roleId);
         boolean operationResult = true;
-        if (permissions.size() > 0) {
+        if (!permissions.isEmpty()) {
             for (PermissionsMap permission : permissions) {
                 long id = permission.getId();
                 if (!deleteById(id)) {
-                    LOG.error("Can't delete PermissionsMap for id " + id);
+                    LOG.error("Can't delete all PermissionsMap for role id {}", roleId);
                     operationResult = false;
                 }
             }
