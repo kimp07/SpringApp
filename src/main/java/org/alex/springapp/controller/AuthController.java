@@ -65,8 +65,7 @@ public class AuthController {
 
         User user = userDAO.findByUserNameAndPassword(userName, password);
         if (user != null) {
-            String token = jwtProvider.generateToken(userName);
-            return token;
+            return jwtProvider.generateToken(userName);
         }
         return "Access denied: invalid user name or password!";
     }
