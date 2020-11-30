@@ -2,6 +2,7 @@ package org.alex.springapp.config;
 
 import java.util.List;
 import org.alex.springapp.config.jwt.JwtFilter;
+import org.alex.springapp.entity.PermissionsMap;
 import org.alex.springapp.entity.Role;
 import org.alex.springapp.service.PermissionsMapService;
 import org.alex.springapp.service.RoleService;
@@ -38,7 +39,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
+        
+        validateDefaultRoles();
+        
         http.httpBasic().disable().csrf().disable().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
                 .antMatchers("/register", "/auth").permitAll();
@@ -53,6 +56,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             }
         }
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+    }
+
+    private void validateDefaultRoles() {
+        Role adminRoleFromDatabase = roleDAO.findByRoleName("ADMIN");
+        if (adminRoleFromDatabase == null) {
+            Role role = new Role();
+            role.setRoleName("ADMIN");
+            role.setRoleDisable(false);
+            Role savedRole = roleDAO.save(role);
+
+            PermissionsMap permission = new PermissionsMap();
+            permission.setRole(savedRole);
+            permission.setPermissionPath("/*");
+            permissionsDAO.save(permission);
+        }
     }
 
 }
