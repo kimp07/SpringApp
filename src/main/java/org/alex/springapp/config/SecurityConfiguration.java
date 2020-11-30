@@ -7,6 +7,7 @@ import org.alex.springapp.entity.Role;
 import org.alex.springapp.service.PermissionsMapService;
 import org.alex.springapp.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -31,7 +32,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private PermissionsMapService permissionsDAO;
     @Autowired
     private JwtFilter jwtFilter;
-
+    @Autowired
+    ApplicationContext springAppContext;
+    
+    
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -40,7 +44,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         
-        validateDefaultRoles();
+        if (!validateDefaultRoles()) {
+            throw new RuntimeException("Defailt roles ADMIN and USER not defined!");
+        }
         
         http.httpBasic().disable().csrf().disable().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
@@ -58,19 +64,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
-    private void validateDefaultRoles() {
-        Role adminRoleFromDatabase = roleDAO.findByRoleName("ADMIN");
-        if (adminRoleFromDatabase == null) {
-            Role role = new Role();
-            role.setRoleName("ADMIN");
-            role.setRoleDisable(false);
-            roleDAO.save(role);
-
-            PermissionsMap permission = new PermissionsMap();
-            permission.setRole(role);
-            permission.setPermissionPath("/*");
-            permissionsDAO.save(permission);
+    private boolean validateDefaultRoles() {
+        Role defaultAdminRole = springAppContext.getBean("defaultAdminRole", Role.class);
+        if (defaultAdminRole == null || defaultAdminRole.getId() == 0) {
+            return false;
         }
+        Role defaultUserRole = springAppContext.getBean("defaultUserRole", Role.class);
+        return !(defaultUserRole == null || defaultUserRole.getId() == 0);
     }
 
 }

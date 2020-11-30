@@ -29,13 +29,13 @@ public class User {
     private String password;
     @Column(name = "full_name")
     private String fullName;
-    @Column(name = "enabled")
+    @Column(name = "enabled", columnDefinition = "tinyint(1) default 1")
     private boolean enabled;
-    @Column(name = "non_locked")
+    @Column(name = "non_locked", columnDefinition = "tinyint(1) default 1")
     private boolean nonLocked;
-    @Column(name = "non_expired")
+    @Column(name = "non_expired", columnDefinition = "tinyint(1) default 1")
     private boolean nonExpired;
-    @Column(name = "credentials_non_expired")
+    @Column(name = "credentials_non_expired", columnDefinition = "tinyint(1) default 1")
     private boolean credentialsNonExpired;
     @ManyToOne
     @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
