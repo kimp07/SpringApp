@@ -17,14 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class AuthController {
-    
+
     @Autowired
     private UserService userDAO;
     @Autowired
     private JwtProvider jwtProvider;
     @Autowired
     private ApplicationContext context;
-    
+
     @PostMapping("/register")
     public String registerUser(@RequestBody @Valid RegistrationRequest requestBody) {
         String userName = requestBody.getUserName();
@@ -35,14 +35,14 @@ public class AuthController {
             fullName = "";
         }
         Role defaultRole = context.getBean("defaultUserRole", Role.class);
-        
+
         if (userDAO.findByUserName(userName) != null) {
             return "User with name " + userName + " already exists!";
         }
         if (userDAO.findByEmail(email) != null) {
             return "User with email " + email + " already exists!";
         }
-        
+
         User user = new User();
         user.setUserName(userName);
         user.setEmail(email);
@@ -54,7 +54,20 @@ public class AuthController {
         user.setCredentialsNonExpired(true);
         user.setNonLocked(true);
         userDAO.save(user);
-        
+
         return "REGISTERED";
+    }
+
+    @PostMapping("/auth")
+    public String logIn(@RequestBody @Valid AuthRequest requestBody) {
+        String userName = requestBody.getUserName();
+        String password = requestBody.getPassword();
+
+        User user = userDAO.findByUserNameAndPassword(userName, password);
+        if (user != null) {
+            String token = jwtProvider.generateToken(userName);
+            return token;
+        }
+        return "Access denied: invalid user name or password!";
     }
 }
