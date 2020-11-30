@@ -64,10 +64,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             Role role = new Role();
             role.setRoleName("ADMIN");
             role.setRoleDisable(false);
-            Role savedRole = roleDAO.save(role);
+            roleDAO.save(role);
 
             PermissionsMap permission = new PermissionsMap();
-            permission.setRole(savedRole);
+            permission.setRole(role);
             permission.setPermissionPath("/*");
             permissionsDAO.save(permission);
         }
