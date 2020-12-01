@@ -47,12 +47,12 @@ public class SpringAppConfig {
 
     @Bean("defaultAdminRole")
     public Role getDefaultAdminRole() {
-        return getDefaultRoleByName(defaultAdminRoleName, "/*");
+        return getDefaultRoleByName(defaultAdminRoleName, "/**");
     }
 
     @Bean("defaultUserRole")
     public Role getDefaultUserRole() {
-        return getDefaultRoleByName(defaultUserRoleName, "/public/*");
+        return getDefaultRoleByName(defaultUserRoleName, "/public/**");
     }
 
 }

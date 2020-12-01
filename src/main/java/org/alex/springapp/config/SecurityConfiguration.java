@@ -1,8 +1,8 @@
 package org.alex.springapp.config;
 
 import java.util.List;
+
 import org.alex.springapp.config.jwt.JwtFilter;
-import org.alex.springapp.entity.PermissionsMap;
 import org.alex.springapp.entity.Role;
 import org.alex.springapp.service.PermissionsMapService;
 import org.alex.springapp.service.RoleService;
@@ -35,6 +35,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     ApplicationContext springAppContext;
     
+    public static final String DEFAULT_ENABLED_PATTERN = "/public/*";
     
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -43,10 +44,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        
-        if (!validateDefaultRoles()) {
-            throw new RuntimeException("Defailt roles ADMIN and USER not defined!");
-        }
         
         http.httpBasic().disable().csrf().disable().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
@@ -59,19 +56,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 for (String pattern : rolePermissions) {
                     http.authorizeRequests().antMatchers(pattern).hasRole(roleName);
                 }
-                //http.authorizeRequests().antMatchers(rolePermissions.stream().toArray(String[]::new)).hasRole(roleName);
+                //http.authorizeRequests().antMatchers(rolePermissions.stream().toArray(String[]::new)).hasRole(roleName)
+            } else {
+                http.authorizeRequests().antMatchers(DEFAULT_ENABLED_PATTERN).hasRole(roleName);
             }
         }
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-    }
-
-    private boolean validateDefaultRoles() {
-        Role defaultAdminRole = springAppContext.getBean("defaultAdminRole", Role.class);
-        if (defaultAdminRole.getId() == 0) {
-            return false;
-        }
-        Role defaultUserRole = springAppContext.getBean("defaultUserRole", Role.class);
-        return !(defaultUserRole.getId() == 0);
     }
 
 }
