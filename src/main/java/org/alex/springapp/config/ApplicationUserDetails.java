@@ -2,6 +2,7 @@ package org.alex.springapp.config;
 
 import java.util.Collection;
 import java.util.Collections;
+import org.alex.springapp.entity.Role;
 import org.alex.springapp.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,7 +28,7 @@ public class ApplicationUserDetails implements UserDetails {
         ApplicationUserDetails userDetails = new ApplicationUserDetails();
         userDetails.userName = user.getUserName();
         userDetails.password = user.getPassword();
-        userDetails.grantedAuthoritys = Collections.singletonList(new SimpleGrantedAuthority(user.getRole().getRoleName()));
+        userDetails.grantedAuthoritys = Collections.singletonList(new SimpleGrantedAuthority( userDetails.getValidatedRoleName(user.getRole())));
 
         userDetails.accountNonExpired = user.isNonExpired();
         userDetails.accountNonLocked = user.isNonLocked();
@@ -36,7 +37,15 @@ public class ApplicationUserDetails implements UserDetails {
 
         return userDetails;
     }
-
+    
+    private String getValidatedRoleName(Role role) {
+        String roleName = role.getRoleName();
+        if (roleName.startsWith("ROLE_")) {
+            return roleName;
+        }
+        return "ROLE_" + roleName;
+    }
+    
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return grantedAuthoritys;

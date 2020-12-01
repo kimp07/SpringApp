@@ -91,6 +91,8 @@ public class UserDAO implements UserService {
             LOG.error("User is null!");
             return null;
         }
+        String password = user.getPassword();
+        user.setPassword(passwordEncoder.encode(password));
         return repository.save(user);
     }
 
