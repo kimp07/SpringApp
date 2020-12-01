@@ -67,11 +67,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private boolean validateDefaultRoles() {
         Role defaultAdminRole = springAppContext.getBean("defaultAdminRole", Role.class);
-        if (defaultAdminRole == null || defaultAdminRole.getId() == 0) {
+        if (defaultAdminRole.getId() == 0) {
             return false;
         }
         Role defaultUserRole = springAppContext.getBean("defaultUserRole", Role.class);
-        return !(defaultUserRole == null || defaultUserRole.getId() == 0);
+        return !(defaultUserRole.getId() == 0);
     }
 
 }
