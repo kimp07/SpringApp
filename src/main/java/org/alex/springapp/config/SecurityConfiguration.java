@@ -56,9 +56,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             String roleName = role.getRoleName();
             List<String> rolePermissions = permissionsDAO.findPermissionsByRoleId(role.getId());
             if (!rolePermissions.isEmpty()) {
-                http.authorizeRequests().antMatchers(rolePermissions.stream().toArray(String[]::new)).hasRole(roleName);
-            } else {
-                http.authorizeRequests().antMatchers("/*").hasRole(roleName);
+                for (String pattern : rolePermissions) {
+                    http.authorizeRequests().antMatchers(pattern).hasRole(roleName);
+                }
+                //http.authorizeRequests().antMatchers(rolePermissions.stream().toArray(String[]::new)).hasRole(roleName);
             }
         }
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
