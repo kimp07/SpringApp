@@ -45,9 +45,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         
-        http.httpBasic().disable().csrf().disable().sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-                .antMatchers("/register", "/auth").permitAll();
+        http.authorizeRequests().antMatchers("/register", "/auth").permitAll();
         List<Role> enabledRoles = roleDAO.findAllEnabledRoles();
         for (Role role : enabledRoles) {
             String roleName = role.getRoleName();
@@ -61,7 +59,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 http.authorizeRequests().antMatchers(DEFAULT_ENABLED_PATTERN).hasRole(roleName);
             }
         }
-        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+        http
+                .authorizeRequests().anyRequest().authenticated()
+                .and()
+                .httpBasic().disable()
+                .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
 }
