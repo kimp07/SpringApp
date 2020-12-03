@@ -16,5 +16,8 @@ public interface PermissionsMapRepository extends JpaRepository<PermissionsMap, 
     
     @Query(value = "SELECT p FROM PermissionsMap p WHERE p.role.id = :roleId")
     List<PermissionsMap> findAllByRoleId(@Param("roleId") long roleId);
+
+    @Query(value = "SELECT p FROM PermissionsMap p WHERE p.resource.id = :resourceId")
+    List<PermissionsMap> findAllByResourceId(@Param("resourceId") long resourceId);
     
 }

@@ -6,7 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -23,9 +23,12 @@ public class PermissionsMap {
     private long id;
     @Column(name = "permission_path")
     private String permissionPath;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
     private Role role;
+    @ManyToOne
+    @JoinColumn(name = "resource_id", referencedColumnName = "id", nullable = false)
+    private Resource resource;
 
     public long getId() {
         return id;
@@ -49,6 +52,14 @@ public class PermissionsMap {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Resource getResource() {
+        return resource;
+    }
+
+    public void setResource(Resource resource) {
+        this.resource = resource;
     }
 
 }

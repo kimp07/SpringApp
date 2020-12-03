@@ -2,6 +2,7 @@ package org.alex.springapp.service;
 
 import java.util.List;
 import org.alex.springapp.entity.PermissionsMap;
+import org.alex.springapp.entity.Role;
 
 /**
  *
@@ -9,7 +10,9 @@ import org.alex.springapp.entity.PermissionsMap;
  */
 public interface PermissionsMapService {
      
-    List<PermissionsMap> findAllByRoleId(long roleId);        
+    List<PermissionsMap> findAllByRoleId(long roleId); 
+    
+    List<PermissionsMap> findAllByResourceId(long resourceId);
     
     PermissionsMap findById(long id);
     
@@ -20,4 +23,7 @@ public interface PermissionsMapService {
     boolean deleteAllByRoleId(long roleId);
     
     List<String> findPermissionsByRoleId(long roleId);
+    
+    List<Role> findRolesByResourceId(long resourceId);
+    
 }
