@@ -41,7 +41,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     ApplicationContext springAppContext;
     
-    public static final String DEFAULT_ENABLED_PATTERN = "/public/*";
+    public static final String DEFAULT_ENABLED_PATTERN = "/public/**";
     
     @Bean
     public PasswordEncoder passwordEncoder() {
