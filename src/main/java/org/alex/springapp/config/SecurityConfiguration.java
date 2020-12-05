@@ -9,7 +9,6 @@ import org.alex.springapp.entity.Resource;
 import org.alex.springapp.entity.Role;
 import org.alex.springapp.service.PermissionsMapService;
 import org.alex.springapp.service.ResourceService;
-import org.alex.springapp.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -30,8 +29,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private RoleService roleDAO;
     @Autowired
     private PermissionsMapService permissionsDAO;
     @Autowired
@@ -55,7 +52,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         
         List<Resource> resources = resourceDAO.findAll();
         for (Resource resource : resources) {
-            List<PermissionsMap> permissions = permissionsDAO.findAllByResourceId(resource.getId());
+            List<PermissionsMap> permissions = permissionsDAO.findAllByResourceIdAndRoleNotDisable(resource.getId());
             List<String> rolesArray = new ArrayList<>();
             for (PermissionsMap permission : permissions) {
                Role role = permission.getRole();

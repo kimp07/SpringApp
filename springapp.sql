@@ -1,10 +1,19 @@
+CREATE TABLE `resources` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `path` varchar(512) NOT NULL,
+  PRIMARY KEY (`id`)
+) 
+ENGINE=InnoDB
+AUTO_INCREMENT=3
+DEFAULT CHARSET=utf8;
 
-CREATE TABLE permissions_map(
-  id INT(11) NOT NULL AUTO_INCREMENT,
-  permission_path VARCHAR(512) NOT NULL DEFAULT '/*',
-  role_id INT(11) NOT NULL,
-  PRIMARY KEY (id),
-  INDEX permissions_map_role_id_x (role_id)
+CREATE TABLE `permissions_map` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `role_id` int(11) NOT NULL,
+  `resource_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `permissions_map_role_id_x` (`role_id`),
+  KEY `permissions_map_resource_id_x` (`resource_id`) USING BTREE
 )
 ENGINE = INNODB
 AUTO_INCREMENT = 8
