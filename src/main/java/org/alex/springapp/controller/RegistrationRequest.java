@@ -16,6 +16,7 @@ public class RegistrationRequest {
     private String password;
     @NotEmpty
     private String email;
+    @NotEmpty
     private String fullName;
         
 }
