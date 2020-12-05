@@ -41,6 +41,13 @@ public class PermissionsMapDAO implements PermissionsMapService {
     public List<PermissionsMap> findAllByResourceId(long resourceId) {
         return repository.findAllByResourceId(resourceId);
     }
+    
+    
+    
+    @Override
+    public List<PermissionsMap> findAllByResourceIdAndRoleNotDisable(long resourceId) {
+        return repository.findAllByResourceIdAndRoleNotDisable(resourceId);
+    }
 
     @Override
     public PermissionsMap findById(long id) {

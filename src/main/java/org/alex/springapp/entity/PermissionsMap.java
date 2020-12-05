@@ -21,8 +21,6 @@ public class PermissionsMap {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(name = "permission_path")
-    private String permissionPath;
     @ManyToOne
     @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
     private Role role;
@@ -36,14 +34,6 @@ public class PermissionsMap {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getPermissionPath() {
-        return permissionPath;
-    }
-
-    public void setPermissionPath(String permissionPath) {
-        this.permissionPath = permissionPath;
     }
 
     public Role getRole() {
