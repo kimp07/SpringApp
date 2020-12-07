@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
  * @author zamdirit
  */
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Long>, CustomRepository<User> {
     
     
     @Query(value = "SELECT u FROM User u WHERE u.userName = :userName")
