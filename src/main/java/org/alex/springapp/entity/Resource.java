@@ -7,12 +7,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  *
  * @author zamdirit
  */
 @Entity
 @Table(name = "resources")
+@Getter
+@Setter
 public class Resource {
     
     @Id
@@ -22,20 +27,4 @@ public class Resource {
     @Column(name = "path")
     private String path;
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-    
 }

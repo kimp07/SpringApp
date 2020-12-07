@@ -1,4 +1,4 @@
-package org.alex.springapp.dao;
+package org.alex.springapp.dbservice;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,18 +18,18 @@ import org.springframework.transaction.annotation.Transactional;
  * @author zamdirit
  */
 @Service
-public class PermissionsMapDAO implements PermissionsMapService {
+public class PermissionsMapDefaultService implements PermissionsMapService {
 
     private final PermissionsMapRepository repository;
 
-    private final ResourceService resourceDAO;
+    private final ResourceService resourceService;
 
-    private static final Logger LOG = LogManager.getLogger(PermissionsMapDAO.class);
+    private static final Logger LOG = LogManager.getLogger(PermissionsMapDefaultService.class);
 
     @Autowired
-    public PermissionsMapDAO(PermissionsMapRepository repository, ResourceService resourceDAO) {
+    public PermissionsMapDefaultService(PermissionsMapRepository repository, ResourceService resourceService) {
         this.repository = repository;
-        this.resourceDAO = resourceDAO;
+        this.resourceService = resourceService;
     }
 
     @Override
@@ -97,7 +97,7 @@ public class PermissionsMapDAO implements PermissionsMapService {
         List<PermissionsMap> permissions = findAllByRoleId(roleId);
         List<String> permissionsArray = new ArrayList<>();
         permissions.forEach(permission
-                -> permissionsArray.add(resourceDAO.findById(permission.getResource().getId()).getPath())
+                -> permissionsArray.add(resourceService.findById(permission.getResource().getId()).getPath())
         );
         return permissionsArray;
     }

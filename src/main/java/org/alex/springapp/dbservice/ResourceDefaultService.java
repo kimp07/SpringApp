@@ -1,4 +1,4 @@
-package org.alex.springapp.dao;
+package org.alex.springapp.dbservice;
 
 import java.util.List;
 import org.alex.springapp.entity.Resource;
@@ -14,14 +14,14 @@ import org.springframework.stereotype.Service;
  * @author zamdirit
  */
 @Service
-public class ResourceDAO implements ResourceService {
+public class ResourceDefaultService implements ResourceService {
     
     private final ResourceRepository repository;
     
-    private static final Logger LOG = LogManager.getLogger(ResourceDAO.class);
+    private static final Logger LOG = LogManager.getLogger(ResourceDefaultService.class);
     
     @Autowired
-    public ResourceDAO(ResourceRepository repository) {
+    public ResourceDefaultService(ResourceRepository repository) {
         this.repository = repository;
     }
     

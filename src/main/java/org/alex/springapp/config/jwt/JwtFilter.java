@@ -31,7 +31,7 @@ public class JwtFilter extends GenericFilterBean {
     @Autowired
     private ApplicationUserDetailsService userDetailsService;
     
-    public static final String AUTHORIZATION = "Authorization"; // Bearer token header
+    private static final String AUTHORIZATION = "Authorization"; // Bearer token header
     
     private static final Logger LOG = LogManager.getLogger(JwtFilter.class);
     

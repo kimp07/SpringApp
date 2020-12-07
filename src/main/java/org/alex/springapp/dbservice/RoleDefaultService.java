@@ -1,4 +1,4 @@
-package org.alex.springapp.dao;
+package org.alex.springapp.dbservice;
 
 import java.util.List;
 import org.alex.springapp.entity.Role;
@@ -15,14 +15,14 @@ import org.springframework.transaction.annotation.Transactional;
  * @author zamdirit
  */
 @Service
-public class RoleDAO implements RoleService {
+public class RoleDefaultService implements RoleService {
 
     private final RoleRepository repository;
     
-    private static final Logger LOG = LogManager.getLogger(RoleDAO.class);
+    private static final Logger LOG = LogManager.getLogger(RoleDefaultService.class);
     
     @Autowired
-    public RoleDAO(RoleRepository repository) {
+    public RoleDefaultService(RoleRepository repository) {
         this.repository = repository;
     }
 

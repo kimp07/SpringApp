@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     @Autowired
-    private UserService userDAO;
+    private UserService userService;
     @Autowired
     private JwtProvider jwtProvider;
     @Autowired
@@ -36,10 +36,10 @@ public class AuthController {
         }
         Role defaultRole = context.getBean("defaultUserRole", Role.class);
 
-        if (userDAO.findByUserName(userName) != null) {
+        if (userService.findByUserName(userName) != null) {
             return "User with name " + userName + " already exists!";
         }
-        if (userDAO.findByEmail(email) != null) {
+        if (userService.findByEmail(email) != null) {
             return "User with email " + email + " already exists!";
         }
 
@@ -53,7 +53,7 @@ public class AuthController {
         user.setNonExpired(true);
         user.setCredentialsNonExpired(true);
         user.setNonLocked(true);
-        userDAO.save(user);
+        userService.save(user);
 
         return "REGISTERED";
     }
@@ -63,7 +63,7 @@ public class AuthController {
         String userName = requestBody.getUserName();
         String password = requestBody.getPassword();
 
-        User user = userDAO.findByUserNameAndPassword(userName, password);
+        User user = userService.findByUserNameAndPassword(userName, password);
         if (user != null) {
             return jwtProvider.generateToken(userName);
         }

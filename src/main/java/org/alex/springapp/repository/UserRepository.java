@@ -2,6 +2,7 @@ package org.alex.springapp.repository;
 
 import java.util.List;
 import java.util.Optional;
+
 import org.alex.springapp.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,5 +36,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "SELECT u FROM User u WHERE u.role.roleName = :roleName")
     Page<User> findAllByRoleName(@Param("roleName") String roleName, Pageable pageable);    
-    
+        
 }

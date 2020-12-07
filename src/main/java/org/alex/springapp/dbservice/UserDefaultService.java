@@ -1,4 +1,4 @@
-package org.alex.springapp.dao;
+package org.alex.springapp.dbservice;
 
 import java.util.List;
 import org.alex.springapp.entity.User;
@@ -18,15 +18,15 @@ import org.springframework.transaction.annotation.Transactional;
  * @author zamdirit
  */
 @Service
-public class UserDAO implements UserService {
+public class UserDefaultService implements UserService {
 
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
 
-    private static final Logger LOG = LogManager.getLogger(UserDAO.class);
+    private static final Logger LOG = LogManager.getLogger(UserDefaultService.class);
 
     @Autowired
-    public UserDAO(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserDefaultService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.repository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }

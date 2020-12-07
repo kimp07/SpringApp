@@ -21,15 +21,15 @@ public class SpringAppConfig {
     private String defaultUserRoleName;
 
     @Autowired
-    private RoleService roleDAO;
+    private RoleService roleService;
 
     private Role getDefaultRoleByName(String roleName) {
-        Role adminRoleFromDatabase = roleDAO.findByRoleName(roleName);
+        Role adminRoleFromDatabase = roleService.findByRoleName(roleName);
         if (adminRoleFromDatabase == null) {
             Role role = new Role();
             role.setRoleName(roleName);
             role.setRoleDisable(false);
-            roleDAO.save(role);
+            roleService.save(role);
 
             return role;
         }

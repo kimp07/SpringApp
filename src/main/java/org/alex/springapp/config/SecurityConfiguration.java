@@ -30,9 +30,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private PermissionsMapService permissionsDAO;
+    private PermissionsMapService permissionsService;
     @Autowired
-    private ResourceService resourceDAO;
+    private ResourceService resourceService;
     @Autowired
     private JwtFilter jwtFilter;
     @Autowired
@@ -50,9 +50,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         
         http.authorizeRequests().antMatchers("/register", "/auth").permitAll();
         
-        List<Resource> resources = resourceDAO.findAll();
+        List<Resource> resources = resourceService.findAll();
         for (Resource resource : resources) {
-            List<PermissionsMap> permissions = permissionsDAO.findAllByResourceIdAndRoleNotDisable(resource.getId());
+            List<PermissionsMap> permissions = permissionsService.findAllByResourceIdAndRoleNotDisable(resource.getId());
             List<String> rolesArray = new ArrayList<>();
             for (PermissionsMap permission : permissions) {
                Role role = permission.getRole();
