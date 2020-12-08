@@ -6,7 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -42,7 +42,7 @@ public class User {
     private boolean nonExpired;
     @Column(name = "credentials_non_expired", columnDefinition = "tinyint(1) default 1")
     private boolean credentialsNonExpired;
-    @OneToOne
+    @ManyToOne()
     @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
     private Role role;
 

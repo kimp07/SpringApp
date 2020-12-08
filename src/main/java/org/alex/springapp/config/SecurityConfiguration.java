@@ -44,7 +44,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
+    
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         
@@ -61,9 +61,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                }
             }
             http.authorizeRequests().antMatchers(resource.getPath()).hasAnyRole(
-                    rolesArray.stream().toArray(String[]::new)                    
+                    rolesArray.stream().toArray(String[]::new)
             );
-        }      
+        }
         http
                 .authorizeRequests().anyRequest().authenticated()
                 .and()

@@ -45,7 +45,7 @@ public class CustomRepositoryImpl<T> implements CustomRepository<T> {
             params.add(value);
             paramNumber++;
             if (paramNumber > 1) {
-               sqlStringBuilder.append(" ,");
+               sqlStringBuilder.append(", ");
             }
             sqlStringBuilder
                     .append("e.")
