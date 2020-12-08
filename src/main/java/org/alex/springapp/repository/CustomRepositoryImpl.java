@@ -57,7 +57,7 @@ public class CustomRepositoryImpl<T> implements CustomRepository<T> {
                 .append(" WHERE id=")
                 .append(id);
         String sql = sqlStringBuilder.toString();
-        Query query = manager.createQuery(sql, entity.getClass());
+        Query query = manager.createQuery(sql);
         paramNumber = 0;
         for (Object param : params) {
             paramNumber++;

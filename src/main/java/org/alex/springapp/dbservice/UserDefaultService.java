@@ -1,6 +1,7 @@
 package org.alex.springapp.dbservice;
 
 import java.util.List;
+import java.util.Map;
 import org.alex.springapp.entity.User;
 import org.alex.springapp.repository.UserRepository;
 import org.alex.springapp.service.UserService;
@@ -107,5 +108,12 @@ public class UserDefaultService implements UserService {
         repository.deleteById(id);
         return true;
     }
+
+    @Override
+    public int updateByFields(User user, long id, Map<String, Object> fields) {
+        return repository.updateByFields(user, id, fields);
+    }
+    
+    
 
 }

@@ -1,6 +1,7 @@
 package org.alex.springapp.service;
 
 import java.util.List;
+import java.util.Map;
 import org.alex.springapp.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,4 +33,6 @@ public interface UserService {
     User save(User user);
     
     boolean deleteById(long id);
+    
+    int updateByFields(User user, long id, Map<String, Object> fields);
 }
