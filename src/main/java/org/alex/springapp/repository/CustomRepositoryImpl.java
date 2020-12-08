@@ -30,8 +30,13 @@ public class CustomRepositoryImpl<T> implements CustomRepository<T> {
     @Override
     public int updateByFields(T entity, long id, Map<String, Object> fields) {
         
-        String entityClassName = entity.getClass().getSimpleName();
-        String sql = "UPDATE " + entityClassName + " e SET ";
+        String entityClassName = entity.getClass().getSimpleName();        
+        StringBuilder sqlStringBuilder = new StringBuilder();
+        sqlStringBuilder
+                .append("UPDATE ")
+                .append(entityClassName)
+                .append(" e SET ");
+        
         List<Object> params = new ArrayList<>();
         int paramNumber = 0;
         for (Map.Entry<String, Object> entry : fields.entrySet()) {
@@ -40,11 +45,18 @@ public class CustomRepositoryImpl<T> implements CustomRepository<T> {
             params.add(value);
             paramNumber++;
             if (paramNumber > 1) {
-                sql += " ,";
+               sqlStringBuilder.append(" ,");
             }
-            sql += "e." + key + " = ?" + paramNumber;
+            sqlStringBuilder
+                    .append("e.")
+                    .append(key)
+                    .append(" = ?")
+                    .append(paramNumber);
         }
-        sql += " WHERE id=" + id;
+        sqlStringBuilder
+                .append(" WHERE id=")
+                .append(id);
+        String sql = sqlStringBuilder.toString();
         Query query = manager.createQuery(sql, entity.getClass());
         paramNumber = 0;
         for (Object param : params) {
