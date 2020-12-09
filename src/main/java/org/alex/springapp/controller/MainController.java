@@ -1,6 +1,5 @@
 package org.alex.springapp.controller;
 
-import java.util.HashMap;
 import java.util.Map;
 import javax.validation.Valid;
 import org.alex.springapp.service.UserService;
@@ -40,35 +39,17 @@ public class MainController {
         if (userData.getId() == null) {
             return "Error: id can not be null!";
         }        
-        Map<String, Object> fields = new HashMap<>();
         User user = userService.findById(userData.getId());
         if (user == null) {
             return "Error: user for id " + userData.getId() + " not found!";
         }
+        Map<String, Object> fields = userData.getFilledFields();
         if (userData.getRoleId() != null) {
             Role roleFromDatabase = roleService.findById(userData.getRoleId());
             if (roleFromDatabase == null) {
                 return "Error: role for id " + userData.getRoleId() + " not found!";
             }
             fields.put("role", roleFromDatabase);
-        }
-        if (userData.getEmail() != null) {
-            fields.put("email", userData.getEmail());
-        }
-        if (userData.getFullName() != null) {
-            fields.put("fullName", userData.getFullName());
-        }
-        if (userData.getEnabled() != null) {
-            fields.put("enabled", userData.getEnabled());
-        }
-        if (userData.getNonLocked() != null) {
-            fields.put("nonLocked", userData.getNonLocked());
-        }
-        if (userData.getNonExpired() != null) {
-            fields.put("nonExpired", userData.getNonExpired());
-        }
-        if (userData.getCredentialsNonExpired() != null) {
-            fields.put("credentialsNonExpired", userData.getCredentialsNonExpired());
         }
         if (!fields.isEmpty()) {
             userService.updateByFields(user, userData.getId(), fields);
