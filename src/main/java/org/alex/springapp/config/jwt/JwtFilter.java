@@ -17,7 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-import org.springframework.web.filter.GenericFilterBean; 
+import org.springframework.web.filter.GenericFilterBean;
 
 /**
  *
@@ -25,34 +25,39 @@ import org.springframework.web.filter.GenericFilterBean;
  */
 @Component
 public class JwtFilter extends GenericFilterBean {
-    
+
     @Autowired
     private JwtProvider jwtProvider;
     @Autowired
     private ApplicationUserDetailsService userDetailsService;
-    
+
     private static final String AUTHORIZATION = "Authorization"; // Bearer token header
+    private static final String JWT_PREFIX = "Bearer ";
     
     private static final Logger LOG = LogManager.getLogger(JwtFilter.class);
-    
+
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
+    public void doFilter(
+            ServletRequest request, ServletResponse response, FilterChain filterChain
+    ) throws IOException, ServletException {
         LOG.info("Starting filter");
         String token = getTokenFromRequest((HttpServletRequest) request);
         if (token != null && jwtProvider.validateToken(token)) {
             String userLogin = jwtProvider.getLoginFromToken(token);
             UserDetails customUserDetails = userDetailsService.loadUserByUsername(userLogin);
-            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
+            UsernamePasswordAuthenticationToken auth
+                    = new UsernamePasswordAuthenticationToken(
+                            customUserDetails, null, customUserDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(auth);
         }
         filterChain.doFilter(request, response);
     }
-    
+
     private String getTokenFromRequest(HttpServletRequest request) {
         String token = request.getHeader(AUTHORIZATION);
-        if (StringUtils.hasText(token) && token.startsWith("Bearer ")) {
-            return token.substring(7);
+        if (StringUtils.hasText(token) && token.startsWith(JWT_PREFIX)) {
+            return token.substring(JWT_PREFIX.length());
         }
         return null;
-    } 
+    }
 }

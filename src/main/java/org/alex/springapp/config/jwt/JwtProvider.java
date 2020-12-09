@@ -24,9 +24,10 @@ public class JwtProvider {
     private static final Logger LOG = LogManager.getLogger(JwtProvider.class);
 
     private static final String JWT_SECRET = "alex_springapp";
+    private static final int JWT_TERM = 15; //Days
 
     public String generateToken(String login) {
-        Date date = Date.from(LocalDate.now().plusDays(15).atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date date = Date.from(LocalDate.now().plusDays(JWT_TERM).atStartOfDay(ZoneId.systemDefault()).toInstant());
         return Jwts.builder()
                 .setSubject(login)
                 .setExpiration(date)
@@ -38,8 +39,16 @@ public class JwtProvider {
         try {
             Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(token);
             return true;
-        } catch (ExpiredJwtException | MalformedJwtException | SignatureException | UnsupportedJwtException | IllegalArgumentException e) {
-            LOG.error("Invalid token cause: {}", e.getMessage());
+        } catch (ExpiredJwtException e) {
+            LOG.error("Invalid token cause ExpiredJwtException: {}", e.getMessage());
+        } catch (MalformedJwtException e) {
+            LOG.error("Invalid token cause MalformedJwtException: {}", e.getMessage());
+        } catch (SignatureException e) {
+            LOG.error("Invalid token cause SignatureException: {}", e.getMessage());
+        } catch (UnsupportedJwtException e) {
+            LOG.error("Invalid token cause UnsupportedJwtException: {}", e.getMessage());
+        } catch (IllegalArgumentException e) {
+            LOG.error("Invalid token cause IllegalArgumentException: {}", e.getMessage());
         }
         return false;
     }

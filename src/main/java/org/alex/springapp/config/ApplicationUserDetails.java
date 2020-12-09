@@ -28,7 +28,10 @@ public class ApplicationUserDetails implements UserDetails {
         ApplicationUserDetails userDetails = new ApplicationUserDetails();
         userDetails.userName = user.getUserName();
         userDetails.password = user.getPassword();
-        userDetails.grantedAuthoritys = Collections.singletonList(new SimpleGrantedAuthority( userDetails.getValidatedRoleName(user.getRole())));
+        userDetails.grantedAuthoritys = Collections.singletonList(
+                new SimpleGrantedAuthority(
+                        userDetails.getValidatedRoleName(user.getRole())
+                ));
 
         userDetails.accountNonExpired = user.isNonExpired();
         userDetails.accountNonLocked = user.isNonLocked();

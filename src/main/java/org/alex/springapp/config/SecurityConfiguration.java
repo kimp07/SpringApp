@@ -45,11 +45,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/register", "/auth").permitAll();
         List<Resource> resources = resourceService.findAll();
         for (Resource resource : resources) {
-            List<PermissionsMap> permissions = permissionsService.findAllByResourceIdAndRoleNotDisable(resource.getId());
+            List<PermissionsMap> permissions
+                    = permissionsService.findAllByResourceIdAndRoleNotDisable(resource.getId());
             List<String> rolesArray = new ArrayList<>();
-            permissions.forEach((permission) -> {
-                rolesArray.add(permission.getRole().getRoleName());
-            });
+            permissions.forEach(permission -> rolesArray.add(permission.getRole().getRoleName()));
             http
                     .authorizeRequests()
                     .antMatchers(resource.getPath()).hasAnyRole(rolesArray.stream().toArray(String[]::new));
