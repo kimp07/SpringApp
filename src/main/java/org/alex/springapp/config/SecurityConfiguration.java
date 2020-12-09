@@ -6,7 +6,6 @@ import java.util.List;
 import org.alex.springapp.config.jwt.JwtFilter;
 import org.alex.springapp.entity.PermissionsMap;
 import org.alex.springapp.entity.Resource;
-import org.alex.springapp.entity.Role;
 import org.alex.springapp.service.PermissionsMapService;
 import org.alex.springapp.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,32 +36,28 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private JwtFilter jwtFilter;
     @Autowired
     ApplicationContext springAppContext;
-    
+
     public static final String DEFAULT_ENABLED_PATTERN = "/public/**";
-    
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        
+
         http.authorizeRequests().antMatchers("/register", "/auth").permitAll();
-        
         List<Resource> resources = resourceService.findAll();
         for (Resource resource : resources) {
             List<PermissionsMap> permissions = permissionsService.findAllByResourceIdAndRoleNotDisable(resource.getId());
             List<String> rolesArray = new ArrayList<>();
-            for (PermissionsMap permission : permissions) {
-               Role role = permission.getRole();
-               if (role != null) {
-                   rolesArray.add(role.getRoleName());
-               }
-            }
-            http.authorizeRequests().antMatchers(resource.getPath()).hasAnyRole(
-                    rolesArray.stream().toArray(String[]::new)
-            );
+            permissions.forEach((permission) -> {
+                rolesArray.add(permission.getRole().getRoleName());
+            });
+            http
+                    .authorizeRequests()
+                    .antMatchers(resource.getPath()).hasAnyRole(rolesArray.stream().toArray(String[]::new));
         }
         http
                 .authorizeRequests().anyRequest().authenticated()
