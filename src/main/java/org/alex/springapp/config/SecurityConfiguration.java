@@ -9,7 +9,6 @@ import org.alex.springapp.entity.Resource;
 import org.alex.springapp.service.PermissionsMapService;
 import org.alex.springapp.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -34,8 +33,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private ResourceService resourceService;
     @Autowired
     private JwtFilter jwtFilter;
-    @Autowired
-    ApplicationContext springAppContext;
 
     public static final String DEFAULT_ENABLED_PATTERN = "/public/**";
 
