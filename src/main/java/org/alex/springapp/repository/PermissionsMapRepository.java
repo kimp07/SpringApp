@@ -13,14 +13,15 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface PermissionsMapRepository extends JpaRepository<PermissionsMap, Long> {
-    
+
     @Query(value = "SELECT p FROM PermissionsMap p WHERE p.role.id = :roleId")
     List<PermissionsMap> findAllByRoleId(@Param("roleId") long roleId);
 
     @Query(value = "SELECT p FROM PermissionsMap p WHERE p.resource.id = :resourceId")
     List<PermissionsMap> findAllByResourceId(@Param("resourceId") long resourceId);
 
-    @Query(value = "SELECT p FROM PermissionsMap p WHERE p.resource.id = :resourceId AND p.role.roleDisable = 0")
-    List<PermissionsMap> findAllByResourceIdAndRoleNotDisable(@Param("resourceId") long resourceId);    
-    
+    @Query(value
+            = "SELECT p FROM PermissionsMap p WHERE p.resource.id = :resourceId AND p.role.roleDisable = 0")
+    List<PermissionsMap> findAllByResourceIdAndRoleNotDisable(@Param("resourceId") long resourceId);
+
 }

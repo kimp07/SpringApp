@@ -27,7 +27,12 @@ public class JwtProvider {
     private static final int JWT_TERM = 15; //Days
 
     public String generateToken(String login) {
-        Date date = Date.from(LocalDate.now().plusDays(JWT_TERM).atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date date = Date.from(
+                LocalDate
+                        .now().plusDays(JWT_TERM)
+                        .atStartOfDay(ZoneId.systemDefault())
+                        .toInstant()
+        );
         return Jwts.builder()
                 .setSubject(login)
                 .setExpiration(date)

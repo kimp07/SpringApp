@@ -51,7 +51,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             permissions.forEach(permission -> rolesArray.add(permission.getRole().getRoleName()));
             http
                     .authorizeRequests()
-                    .antMatchers(resource.getPath()).hasAnyRole(rolesArray.stream().toArray(String[]::new));
+                    .antMatchers(resource.getPath())
+                    .hasAnyRole(rolesArray.stream().toArray(String[]::new));
         }
         http
                 .authorizeRequests().anyRequest().authenticated()

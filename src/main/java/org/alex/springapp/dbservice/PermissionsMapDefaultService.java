@@ -27,7 +27,8 @@ public class PermissionsMapDefaultService implements PermissionsMapService {
     private static final Logger LOG = LogManager.getLogger(PermissionsMapDefaultService.class);
 
     @Autowired
-    public PermissionsMapDefaultService(PermissionsMapRepository repository, ResourceService resourceService) {
+    public PermissionsMapDefaultService(
+            PermissionsMapRepository repository, ResourceService resourceService) {
         this.repository = repository;
         this.resourceService = resourceService;
     }
@@ -97,7 +98,9 @@ public class PermissionsMapDefaultService implements PermissionsMapService {
         List<PermissionsMap> permissions = findAllByRoleId(roleId);
         List<String> permissionsArray = new ArrayList<>();
         permissions.forEach(permission
-                -> permissionsArray.add(resourceService.findById(permission.getResource().getId()).getPath())
+                -> permissionsArray.add(
+                        resourceService.findById(permission.getResource().getId()).getPath()
+                )
         );
         return permissionsArray;
     }
