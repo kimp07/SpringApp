@@ -11,12 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.alex.springapp.entity.User;
 import org.alex.springapp.entity.Role;
 import org.alex.springapp.service.RoleService;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  *
  * @author zamdirit
  */
-@RestController
+@RestController()
+@RequestMapping("/api")
 public class MainController {
     
     @Autowired

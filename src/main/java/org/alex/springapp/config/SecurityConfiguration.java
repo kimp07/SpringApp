@@ -42,7 +42,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.authorizeRequests().antMatchers("/register", "/auth").permitAll();
+        http.authorizeRequests().antMatchers("/api/register", "/api/auth", "/web/register", "/web/login").permitAll();
         List<Resource> resources = resourceService.findAll();
         for (Resource resource : resources) {
             List<PermissionsMap> permissions
