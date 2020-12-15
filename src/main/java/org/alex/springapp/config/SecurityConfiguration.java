@@ -44,7 +44,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                .antMatchers("/api/register", "/api/auth", "/web/register", "/web/login")
+                .antMatchers(
+                        "/api/register",
+                        "/api/auth",
+                        "/web/registerForm",
+                        "/web/register",
+                        "/web/authForm",
+                        "/web/auth",
+                        "/web/logout")
                 .permitAll();
         List<Resource> resources = resourceService.findAll();
         for (Resource resource : resources) {

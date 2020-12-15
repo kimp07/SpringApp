@@ -27,7 +27,7 @@ public class AuthController {
     @Autowired
     private ApplicationContext context;
 
-    @PostMapping("/register")
+    @PostMapping("/api/register")
     public String registerUser(@RequestBody @Valid RegistrationRequest requestBody) {
         String userName = requestBody.getUserName();
         String password = requestBody.getPassword();
@@ -60,7 +60,7 @@ public class AuthController {
         return "REGISTERED";
     }
 
-    @PostMapping("/auth")
+    @PostMapping("/api/auth")
     public String logIn(@RequestBody @Valid AuthRequest requestBody) {
         String userName = requestBody.getUserName();
         String password = requestBody.getPassword();
