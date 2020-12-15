@@ -1,7 +1,9 @@
-package org.alex.springapp.controller;
+package org.alex.springapp.controller.api;
 
 import javax.validation.Valid;
 import org.alex.springapp.config.jwt.JwtProvider;
+import org.alex.springapp.controller.AuthRequest;
+import org.alex.springapp.controller.RegistrationRequest;
 import org.alex.springapp.entity.Role;
 import org.alex.springapp.entity.User;
 import org.alex.springapp.service.UserService;
